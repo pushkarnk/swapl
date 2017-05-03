@@ -2,21 +2,62 @@
 import Foundation
 
 prefix operator ➕
+prefix operator ➖
+prefix operator ✖️
+prefix operator ➗
 
+infix operator ➕: AdditionPrecedence
+infix operator ➖: AdditionPrecedence
+infix operator ✖️: MultiplicationPrecedence
+infix operator ➗: MultiplicationPrecedence
+
+//"Pseudo" Conjugate
 public prefix func ➕(w: [Double]) -> [Double] {
     return w
 }
 
+//Negate
+public prefix func ➖(w: [Double]) -> [Double] {
+    return w.map { -$0 }
+}
 
-infix operator ➕: AdditionPrecedence
+//Direction
+public prefix func ✖️(w: [Double]) -> [Double] {
+    return w.map { $0 < 0 ? -1 : ($0 > 0 ? 1 : 0) }
+}
 
-public func ➕(as: [Double], ws: [Double] ) -> [Double] {
+//Reciprocal
+public prefix func ➗(w: [Double]) -> [Double] {
+    return w.map { 1.0/$0 }
+}
+
+//Plus
+public func ➕(as: [Double], ws: [Double]) -> [Double] {
+    return operateBinary(`as`, ws, +)
+}
+
+//Minus
+public func ➖(as: [Double], ws: [Double]) -> [Double] {
+    return operateBinary(`as`, ws, -)
+}
+
+//Times
+public func ✖️(as: [Double], ws: [Double]) -> [Double] {
+    return operateBinary(`as`, ws, *)
+}
+
+//Divide
+public func ➗(as: [Double], ws: [Double]) -> [Double] {
+    return operateBinary(`as`, ws, /)
+}
+
+private func operateBinary(_ as: [Double], _ ws: [Double], _ op: (Double, Double) -> Double) -> [Double] {
     if `as`.count == 1 {
-        return ws.map { $0 + `as`.first!}
+        return ws.map { op(`as`[0], $0) }
     }
 
     if ws.count == 1 {
-        return `as`.map { $0 + ws.first!}
+        return `as`.map { op($0, ws[0]) }
     }
 
     guard `as`.count == ws.count else {
@@ -25,10 +66,10 @@ public func ➕(as: [Double], ws: [Double] ) -> [Double] {
         return []
     }
 
-    //TODO: functionally?
-    var sum: [Double] = []
+    //TODO: do functionally?
+    var result = [Double]()
     for i in 0..<`as`.count {
-        sum.append(`as`[i] + ws[i])
+        result.append(op(`as`[i], ws[i]))
     }
-    return sum
+    return result
 }
