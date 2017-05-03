@@ -1,39 +1,40 @@
 /* Math operators of APL */
 import Foundation
 
-prefix operator ➕
-prefix operator ➖
-prefix operator ✖️
-prefix operator ➗
+prefix operator +
+prefix operator -
+prefix operator ×
+prefix operator ÷
 prefix operator ⌈
 prefix operator ⌊
 
-infix operator ➕: AdditionPrecedence
-infix operator ➖: AdditionPrecedence
-infix operator ✖️: MultiplicationPrecedence
-infix operator ➗: MultiplicationPrecedence
+
+infix operator +: AdditionPrecedence
+infix operator -: AdditionPrecedence
+infix operator ×: MultiplicationPrecedence
+infix operator ÷: MultiplicationPrecedence
 infix operator ⌈: AdditionPrecedence
 infix operator ⌊: AdditionPrecedence
 
 
 
 //"Pseudo" Conjugate
-public prefix func ➕(w: [Double]) -> [Double] {
+public prefix func +(w: [Double]) -> [Double] {
     return w
 }
 
 //Negate
-public prefix func ➖(w: [Double]) -> [Double] {
+public prefix func -(w: [Double]) -> [Double] {
     return w.map { -$0 }
 }
 
 //Direction
-public prefix func ✖️(w: [Double]) -> [Double] {
+public prefix func ×(w: [Double]) -> [Double] {
     return w.map { $0 < 0 ? -1 : ($0 > 0 ? 1 : 0) }
 }
 
 //Reciprocal
-public prefix func ➗(w: [Double]) -> [Double] {
+public prefix func ÷(w: [Double]) -> [Double] {
     return w.map { 1.0/$0 }
 }
 
@@ -48,22 +49,22 @@ public prefix func ⌊(w: [Double]) -> [Double] {
 }
 
 //Plus
-public func ➕(as: [Double], ws: [Double]) -> [Double] {
+public func +(as: [Double], ws: [Double]) -> [Double] {
     return operateBinary(`as`, ws, +)
 }
 
 //Minus
-public func ➖(as: [Double], ws: [Double]) -> [Double] {
+public func -(as: [Double], ws: [Double]) -> [Double] {
     return operateBinary(`as`, ws, -)
 }
 
 //Times
-public func ✖️(as: [Double], ws: [Double]) -> [Double] {
+public func ×(as: [Double], ws: [Double]) -> [Double] {
     return operateBinary(`as`, ws, *)
 }
 
 //Divide
-public func ➗(as: [Double], ws: [Double]) -> [Double] {
+public func ÷(as: [Double], ws: [Double]) -> [Double] {
     return operateBinary(`as`, ws, /)
 }
 
