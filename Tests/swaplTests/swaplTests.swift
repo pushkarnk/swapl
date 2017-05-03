@@ -67,6 +67,26 @@ class swaplTests: XCTestCase {
         XCTAssertEqual(a4➗w4, [2, 2, 1.6])
     }
 
+    func testCeil() {
+        XCTAssert(⌈[1.9,-9.9,8.0,1,0,0.9,-0.8] == [2,-9,8,1,0,1,0])
+    }
+
+    func testFloor() {
+        XCTAssert(⌊[1.9,-9.9,8.0,1,0,0.9,-0.8] == [1,-10,8,1,0,0,-1])
+    }
+
+    func testMaximum() {
+        XCTAssertEqual([9.0] ⌈ [7.0, 9.0, 6.0 ,5.0, 4.9], [9.0, 9.0, 9.0, 9.0, 9.0])
+        XCTAssertEqual([7.0, 9.0, 6.0 ,5.0, 4.9] ⌈ [9.0], [9.0, 9.0, 9.0, 9.0, 9.0])
+        XCTAssertEqual([8.0, 9.0, 7.0] ⌈ [9.0, 5.0, 8.0] , [9.0, 9.0, 8.0])
+    }
+
+    func testMinimum() {
+        XCTAssertEqual([9.0] ⌊ [7.0, 9.0, 6.0 ,5.0, 4.9], [7.0, 9.0, 6.0, 5.0, 4.9])
+        XCTAssertEqual([7.0, 9.0, 6.0 ,5.0, 4.9] ⌊ [9.0], [7.0, 9.0, 6.0, 5.0, 4.9])
+        XCTAssertEqual([8.0, 9.0, 7.0] ⌊ [9.0, 5.0, 8.0] , [8.0, 5.0, 7.0])
+    }
+
     static var allTests : [(String, (swaplTests) -> () throws -> Void)] {
         return [
             ("testConjugate", testConjugate),
@@ -77,6 +97,10 @@ class swaplTests: XCTestCase {
             ("testTimes", testTimes),
             ("testReciprocal", testReciprocal),
             ("testDivide", testDivide),
+            ("testCeil", testCeil),
+            ("testFloor", testFloor),
+            ("testMaximum", testMaximum),
+            ("testMinimum", testMinimum),
         ]
     }
 }
