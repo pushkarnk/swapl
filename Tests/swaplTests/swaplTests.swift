@@ -87,6 +87,12 @@ class swaplTests: XCTestCase {
         XCTAssertEqual([8.0, 9.0, 7.0] ⌊ [9.0, 5.0, 8.0] , [8.0, 5.0, 7.0])
     }
 
+    func testResidue() {
+        XCTAssertEqual([2]|[3, 4, 0, -2, -3], [1, 0, 0, 0, 1])
+        XCTAssertEqual([4, -3, 7, 9, -5]|[14], [2, -1, 0, 5, -1])
+        XCTAssertEqual([-2, -2]|[9, -8], [-1, 0])
+    }
+
     static var allTests : [(String, (swaplTests) -> () throws -> Void)] {
         return [
             ("testConjugate", testConjugate),
@@ -101,6 +107,7 @@ class swaplTests: XCTestCase {
             ("testFloor", testFloor),
             ("testMaximum", testMaximum),
             ("testMinimum", testMinimum),
+            ("testResidue", testResidue),
         ]
     }
 }
