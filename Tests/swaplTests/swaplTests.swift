@@ -93,6 +93,22 @@ class swaplTests: XCTestCase {
         XCTAssertEqual([-2, -2]|[9, -8], [-1, 0])
     }
 
+    func testLogarithm() {
+        XCTAssertTrue(almostEqual(⍟[2.718, 5.34], [0.9998963157, 1.675225653]))
+        XCTAssertTrue(almostEqual([10] ⍟ [1, 10, 100, 1000], [0, 1, 2, 3]))
+        XCTAssertTrue(almostEqual([10, 20, 30] ⍟ [100, 200, 300], [2, 1.768621787, 1.676992493]))
+        let r = [6.64385619, 4.191806549, 3.321928095, 2.861353116, 2.570194418, 2.366589325, 2.21461873]
+        XCTAssertTrue(almostEqual([2, 3, 4, 5, 6, 7, 8] ⍟ [100], r))
+    }
+
+    func almostEqual(_ x1: [Double], _ x2: [Double]) -> Bool {
+        guard x1.count == x2.count else { return false }
+        for i in 0..<x1.count {
+            guard abs(x1[i] - x2[i]) <= 0.000000001 else { return false }
+        }
+        return true
+    }
+
     static var allTests : [(String, (swaplTests) -> () throws -> Void)] {
         return [
             ("testConjugate", testConjugate),
@@ -108,6 +124,7 @@ class swaplTests: XCTestCase {
             ("testMaximum", testMaximum),
             ("testMinimum", testMinimum),
             ("testResidue", testResidue),
+            ("testLogarithm", testLogarithm)
         ]
     }
 }

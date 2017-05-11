@@ -8,6 +8,7 @@ prefix operator ÷
 prefix operator ⌈
 prefix operator ⌊
 prefix operator |
+prefix operator ⍟
 
 infix operator +: AdditionPrecedence
 infix operator -: AdditionPrecedence
@@ -16,7 +17,9 @@ infix operator ÷: MultiplicationPrecedence
 infix operator ⌈: AdditionPrecedence
 infix operator ⌊: AdditionPrecedence
 infix operator |: AdditionPrecedence
+infix operator ⍟: AdditionPrecedence
 
+///Monadic functions
 
 //"Pseudo" Conjugate
 public prefix func +(w: [Double]) -> [Double] {
@@ -61,6 +64,17 @@ public prefix func |(w: Double) -> Double {
     return abs(w)
 }
 
+//Natural logarithm
+public prefix func ⍟(_ w: Double) -> Double {
+    return log(w)
+}
+
+public prefix func ⍟(_ w: [Double]) ->[Double] {
+    return w.map { log($0) }
+}
+
+///Dyadic functions
+
 //Plus
 public func +(a: [Double], w: [Double]) -> [Double] {
     return operateBinary(a, w, +)
@@ -99,6 +113,11 @@ public func |(a: [Double], w: [Double]) -> [Double] {
 private func residue(_ x: Double, _ y: Double) -> Double {
     let r = |y.truncatingRemainder(dividingBy: |x)
     return r == 0 || x >= 0 && y >= 0 ? r : (×x) * (|x - r)
+}
+
+///Logarithm
+public func ⍟(a: [Double], w: [Double]) -> [Double] {
+    return operateBinary(a, w) { log($1) / log($0) }
 }
 
 private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) -> Double) -> [Double] {
