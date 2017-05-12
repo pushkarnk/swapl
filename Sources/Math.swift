@@ -9,6 +9,7 @@ prefix operator ⌈
 prefix operator ⌊
 prefix operator |
 prefix operator ⍟
+prefix operator !
 
 infix operator +: AdditionPrecedence
 infix operator -: AdditionPrecedence
@@ -72,6 +73,17 @@ public prefix func ⍟(_ w: Double) -> Double {
 public prefix func ⍟(_ w: [Double]) ->[Double] {
     return w.map { log($0) }
 }
+
+//Factorial for whole numbers
+//Gamma function for fractions, strangle !y = gamma(y+1)
+public prefix func !(_ w: Double) -> Double {
+    return factorialOrGamma(w)
+}
+
+public prefix func !(_ w: [Double]) -> [Double] {
+    return w.map { factorialOrGamma($0) }
+}
+
 
 ///Dyadic functions
 
@@ -141,4 +153,23 @@ private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) 
         result.append(op(a[i], w[i]))
     }
     return result
+}
+
+private func factorialOrGamma(_ w: Double) -> Double {
+    if w.truncatingRemainder(dividingBy: 1) == 0 {
+        //TODO: throw an error for negative integers
+        return Double(factorial(Int(w)))
+    }
+    else {
+        return gamma(w)
+    }
+}
+
+private func factorial(_ x: Int) -> Int {
+    guard x > 1 else { return 1 }
+    return x * factorial(x-1)
+}
+
+private func gamma(_ x: Double) -> Double {
+    return tgamma(x+1)
 }

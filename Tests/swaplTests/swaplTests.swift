@@ -101,10 +101,17 @@ class swaplTests: XCTestCase {
         XCTAssertTrue(almostEqual([2, 3, 4, 5, 6, 7, 8] ⍟ [100], r))
     }
 
-    func almostEqual(_ x1: [Double], _ x2: [Double]) -> Bool {
+    func testFactorial() {
+        XCTAssertTrue(almostEqual(![3, 10, -0.11], [6, 3628800, 1.076830683]))
+        let e = [-2.204980518, 11.6317284, 1.061474919, 1.003838478, 2.343526658]
+        XCTAssertTrue(almostEqual(![-3.2, 3.5, -0.091, 1.009, 2.166], e, 0.00000001))
+    }
+
+    func almostEqual(_ x1: [Double], _ x2: [Double], _ precision: Double = 0.000000001) -> Bool {
         guard x1.count == x2.count else { return false }
+
         for i in 0..<x1.count {
-            guard abs(x1[i] - x2[i]) <= 0.000000001 else { return false }
+            guard abs(x1[i] - x2[i]) <= precision else { return false }
         }
         return true
     }
@@ -124,7 +131,8 @@ class swaplTests: XCTestCase {
             ("testMaximum", testMaximum),
             ("testMinimum", testMinimum),
             ("testResidue", testResidue),
-            ("testLogarithm", testLogarithm)
+            ("testLogarithm", testLogarithm),
+            ("testFactorial", testFactorial),
         ]
     }
 }
