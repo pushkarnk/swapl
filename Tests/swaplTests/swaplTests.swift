@@ -116,7 +116,6 @@ class swaplTests: XCTestCase {
         guard x1.count == x2.count else { return false }
 
         for i in 0..<x1.count {
-            //print(abs(x1[i] - x2[i]))
             guard abs(x1[i] - x2[i]) <= precision else { return false }
         }
         return true
