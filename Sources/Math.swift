@@ -19,6 +19,7 @@ infix operator ⌈: AdditionPrecedence
 infix operator ⌊: AdditionPrecedence
 infix operator |: AdditionPrecedence
 infix operator ⍟: AdditionPrecedence
+infix operator !: AdditionPrecedence
 
 ///Monadic functions
 
@@ -127,9 +128,14 @@ private func residue(_ x: Double, _ y: Double) -> Double {
     return r == 0 || x >= 0 && y >= 0 ? r : (×x) * (|x - r)
 }
 
-///Logarithm
+//Logarithm
 public func ⍟(a: [Double], w: [Double]) -> [Double] {
     return operateBinary(a, w) { log($1) / log($0) }
+}
+
+//Binomial
+public func !(a: [Double], w: [Double]) -> [Double] {
+    return operateBinary(a, w) { isNegativeWhole($1 - $0) ? 0 : (!$1) / (!($1 - $0) * !$0) }
 }
 
 private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) -> Double) -> [Double] {
@@ -156,7 +162,7 @@ private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) 
 }
 
 private func factorialOrGamma(_ w: Double) -> Double {
-    if w.truncatingRemainder(dividingBy: 1) == 0 {
+    if isWhole(w) {
         //TODO: throw an error for negative integers
         return Double(factorial(Int(w)))
     }
@@ -172,4 +178,12 @@ private func factorial(_ x: Int) -> Int {
 
 private func gamma(_ x: Double) -> Double {
     return tgamma(x+1)
+}
+
+private func isWhole(_ x: Double) -> Bool {
+    return x.truncatingRemainder(dividingBy: 1) == 0
+}
+
+private func isNegativeWhole(_ x: Double) -> Bool {
+    return x < 0 && x.truncatingRemainder(dividingBy: 1) == 0
 }

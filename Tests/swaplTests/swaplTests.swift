@@ -105,12 +105,18 @@ class swaplTests: XCTestCase {
         XCTAssertTrue(almostEqual(![3, 10, -0.11], [6, 3628800, 1.076830683]))
         let e = [-2.204980518, 11.6317284, 1.061474919, 1.003838478, 2.343526658]
         XCTAssertTrue(almostEqual(![-3.2, 3.5, -0.091, 1.009, 2.166], e, 1e-8))
+        XCTAssertTrue(almostEqual([1, 2, 3, 4] ! [5, 6, 7, 8], [5, 15, 35, 70]))
+        let e0 = [10.7777745, 51.83596309, 185.6061904, 547.7646107]
+        XCTAssertTrue(almostEqual([1.1, 2.1, 3.1, 4.1] ! [9.1,10.1,11.1,12.1], e0, 1e-7))
+        XCTAssertTrue(almostEqual([4, 5, 6] ! [1, 2, 3], [0, 0, 0]))
+        XCTAssertTrue(almostEqual([-1.2, -2.3, -3] ! [-3.2, -3.1, -12], [0, -0.3027566896, 0]))
     }
 
     func almostEqual(_ x1: [Double], _ x2: [Double], _ precision: Double = 1e-9) -> Bool {
         guard x1.count == x2.count else { return false }
 
         for i in 0..<x1.count {
+            //print(abs(x1[i] - x2[i]))
             guard abs(x1[i] - x2[i]) <= precision else { return false }
         }
         return true
