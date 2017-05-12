@@ -58,11 +58,11 @@ public prefix func ⌊(w: [Double]) -> [Double] {
 
 //Magnitude
 public prefix func |(w: [Double]) -> [Double] {
-    return w.map { abs($0) }
+    return w.map { $0.magnitude }
 }
 
 public prefix func |(w: Double) -> Double {
-    return abs(w)
+    return w.magnitude
 }
 
 //Natural logarithm
