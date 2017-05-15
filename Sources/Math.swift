@@ -10,7 +10,9 @@ prefix operator ⌊
 prefix operator |
 prefix operator ⍟
 prefix operator !
+prefix operator ✴
 
+///TODO: Do all operators follow AdditionPrecedence?
 infix operator +: AdditionPrecedence
 infix operator -: AdditionPrecedence
 infix operator ×: MultiplicationPrecedence
@@ -20,6 +22,7 @@ infix operator ⌊: AdditionPrecedence
 infix operator |: AdditionPrecedence
 infix operator ⍟: AdditionPrecedence
 infix operator !: AdditionPrecedence
+infix operator ✴: AdditionPrecedence
 
 ///Monadic functions
 
@@ -85,6 +88,10 @@ public prefix func !(_ w: [Double]) -> [Double] {
     return w.map { factorialOrGamma($0) }
 }
 
+//Exponential
+public prefix func ✴(_ w: [Double]) -> [Double] {
+    return w.map { pow(M_E, $0) }
+}
 
 ///Dyadic functions
 
@@ -138,6 +145,11 @@ public func !(a: [Double], w: [Double]) -> [Double] {
     return operateBinary(a, w) { isNegativeWhole($1 - $0) ? 0 : (!$1) / (!($1 - $0) * !$0) }
 }
 
+//Power
+public func ✴(a: [Double], w: [Double]) -> [Double] {
+    return operateBinary(a, w) { pow($0, $1) }
+}
+
 private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) -> Double) -> [Double] {
     if a.count == 1 {
         return w.map { op(a[0], $0) }
@@ -185,5 +197,5 @@ private func isWhole(_ x: Double) -> Bool {
 }
 
 private func isNegativeWhole(_ x: Double) -> Bool {
-    return x < 0 && x.truncatingRemainder(dividingBy: 1) == 0
+    return x < 0 && isWhole(x)
 }
