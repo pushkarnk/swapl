@@ -11,6 +11,7 @@ prefix operator |
 prefix operator ⍟
 prefix operator !
 prefix operator ✴
+prefix operator ⸮
 
 ///TODO: Do all operators follow AdditionPrecedence?
 infix operator +: AdditionPrecedence
@@ -23,6 +24,7 @@ infix operator |: AdditionPrecedence
 infix operator ⍟: AdditionPrecedence
 infix operator !: AdditionPrecedence
 infix operator ✴: AdditionPrecedence
+infix operator ⸮ : AdditionPrecedence
 
 ///Monadic functions
 
@@ -93,6 +95,14 @@ public prefix func ✴(_ w: [Double]) -> [Double] {
     return w.map { pow(M_E, $0) }
 }
 
+//Roll
+public prefix func ⸮(_ w: [Int]) -> [Int] {
+    w.forEach {
+        guard $0 > 0 else { fatalError("Roll right argument must consist of non-negative integer(s)") }
+    }
+    return w.map { Int(arc4random_uniform(UInt32($0))) }
+}
+
 ///Dyadic functions
 
 //Plus
@@ -148,6 +158,14 @@ public func !(a: [Double], w: [Double]) -> [Double] {
 //Power
 public func ✴(a: [Double], w: [Double]) -> [Double] {
     return operateBinary(a, w) { pow($0, $1) }
+}
+
+//Deal
+public func ⸮(a: [Int], w: [Int]) -> [Int] {
+    guard a.count == 1 && w.count == 1 else { fatalError("Length Error") }
+    guard a.first! > 0 && w.first! > 0 else { fatalError("Deal right argument must be non-negative") }
+    guard a.first! <= w.first! else { fatalError("Deal right argument must be greater than or equal to the left argument") }
+    return Array(1...a.first!).flatMap { _ in ⸮w }
 }
 
 private func operateBinary(_ a: [Double], _ w: [Double], _ op: (Double, Double) -> Double) -> [Double] {
